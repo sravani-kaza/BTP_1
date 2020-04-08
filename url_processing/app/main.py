@@ -12,14 +12,15 @@ def processurl():
 	Arg: data => input json object with url,'''
 	data = request.get_json(force=True)
 	url = data['url']
-	pdf = {'pdf_upload' : data['pdf_upload'],'pdf_parser' : data['pdf_parser']}
-	response = DoScraping(url,pdf).classify_url()
+	pdf = {'pdf_upload' : data['pdf_upload'], 'pdf_parser' : data['pdf_parser']}
+	response = DoScraping(url, pdf).classify_url()
 	# print(response)
 	return response
 
 @app.route('/')
 def hello():
-    return "hello world from url_processing"
+	'''hello world'''
+	return "hello world from url_processing"
 
 if __name__ == '__main__':
 	app.run(debug=True)#'0.0.0.0',debug=True,port=80)

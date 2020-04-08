@@ -2,14 +2,15 @@
 # pylint: disable=W0312
 import os
 import re
+import json
 import requests
 import textract
 from fpdf import FPDF
-import json
+
 
 class ConvertTopdf():
 	'''converts files to pdf'''
-	def __init__(self, url, typeoffile,pdf):
+	def __init__(self, url, typeoffile, pdf):
 		self.url = url
 		self.type = typeoffile
 		self.pdf = pdf
@@ -32,11 +33,11 @@ class ConvertTopdf():
 			    file.close()
 			if self.type not in ["pdf"]:
 				text = textract.process(self.path+fname+'.'+self.type)
-				self.writetopdf(text,self.path+fname+'.'+'pdf')
+				self.writetopdf(text, self.path+fname+'.'+'pdf')
 				self.type = 'pdf'
 			file_path = self.path+fname+'.'+'pdf'
 			file = fname+'.pdf'
-			file_data = {'file': open(file_path,'rb')}
+			file_data = {'file': open(file_path, 'rb')}
 			# print(file)
 			# print(file_path)
 			# print(file_data)
@@ -63,22 +64,22 @@ class ConvertTopdf():
 			# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'ERROR in loading'})
 			print("ERROR in loading")
 			return None
-
-	def writetopdf(self,text,name):	
+	def writetopdf(self, text, name):
 		'''write text to pdf'''
 		try:
-			# save FPDF() class into a  
+			# save FPDF() class into a
 			# variable pdf
-			pdf = FPDF('P','mm','A4')
-			pdf.set_auto_page_break(True,5)
-			# Add a page 
+			pdf = FPDF('P', 'mm', 'A4')
+			pdf.set_auto_page_break(True, 5)
+			# Add a page
 			pdf.add_page()
 			#set font
 			pdf.set_font('Arial')
-			text = re.sub("\n+","\n",text.decode())
+			text = re.sub("\n+", "\n", text.decode())
 			pdf.multi_cell(0, 5, text)
-			pdf.ln()  
+			pdf.ln()
 			pdf.output(name)
+			return "success"
 		except:
 			# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'ERROR in loading'})
 			print("ERROR in loading")

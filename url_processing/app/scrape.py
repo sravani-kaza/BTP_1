@@ -1,13 +1,13 @@
 '''WebScraper'''
 # pylint: disable=W0312
-import os
-import requests
+# import os
+# import requests
 import re
 import json
 from urllib.request import urlopen
 import urllib.error
 from itertools import product
-from copy import copy
+# from copy import copy
 from bs4 import BeautifulSoup
 from bs4.element import Comment
 from convertdocxpdf import ConvertTopdf
@@ -19,7 +19,7 @@ class DoScraping():
 	'''does Web scraping for HTML Pages
 	Args:
 	urls: url to be summarised'''
-	def __init__(self, url,pdf):
+	def __init__(self, url, pdf):
 		self.url = url
 		self.data = {}
 		self.text = ""
@@ -78,8 +78,7 @@ class DoScraping():
 		elif urltype in ["pdf", "doc", "docx", "xls", "xlsx", "pptx", "odt", "txt"]:
 			#convert all to pdf
 			final['type'] = 'html'
-			response_pdf = ConvertTopdf(self.url, urltype,self.pdf).process()
-			
+			response_pdf = ConvertTopdf(self.url, urltype, self.pdf).process()
 			if response_pdf is None:
 				# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'Path of Input file not found'})
 				return json.dumps({"error":"Input url file cannot be processed"})
@@ -193,7 +192,7 @@ class DoScraping():
 		# 		eacht['body'] = self.table_to_2d(node)
 		# 		self.tables.append([eacht])
 		#extract text
-		for script in soup(["table","svg"]):
+		for script in soup(["table", "svg"]):
 		    script.extract()
 		text = []
 		for tag in soup.findAll(TEXT+HEADERS):
@@ -203,7 +202,7 @@ class DoScraping():
 				continue
 			if isinstance(tag, Comment) or tag.name in ["li"]:
 				continue
-			if tag.name in ["a","href","span"]:
+			if tag.name in ["a", "href", "span"]:
 				continue
 			if tag.name in ["p"]+HEADERS:
 				if len(eachtext) > 0:
