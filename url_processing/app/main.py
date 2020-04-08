@@ -8,7 +8,7 @@ from scrape import DoScraping
 app = Flask(__name__)
 @app.route('/extract_page', methods=['POST'])
 def processurl():
-	'''processes the url as html or pdf
+	'''Processes the url as html or pdf
 	Arg: data => input json object with url,'''
 	data = request.get_json(force=True)
 	url = data['url']

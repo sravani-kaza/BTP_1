@@ -1,5 +1,4 @@
 import requests
-import json
 import time
 start = time.time()
 # dictToSend = {'url':'https://en.wikipedia.org/wiki/Demographics_of_the_Western_Balkans','pdf_upload': 'http://10.4.24.5:8004/pdfupload', 'pdf_parser': 'http://10.4.24.5:8004/pdftotxt'}

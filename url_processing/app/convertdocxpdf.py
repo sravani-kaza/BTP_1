@@ -1,4 +1,4 @@
-'''docx to pdf converter'''
+'''docx to pdf converter.'''
 # pylint: disable=W0312
 import os
 import re
@@ -11,6 +11,7 @@ from fpdf import FPDF
 class ConvertTopdf():
 	'''converts files to pdf'''
 	def __init__(self, url, typeoffile, pdf):
+		'''initialises pdf conversion'''
 		self.url = url
 		self.type = typeoffile
 		self.pdf = pdf

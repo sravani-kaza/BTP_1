@@ -1,5 +1,5 @@
- 
-# Data types
+ '''sample test case for pdf'''
+ # Data types
 
 # file_path: path to the pdf file to be extracted
 # routes['pdf_upload']: The route to call to send the file across to pdf parser container (the route will be sent in the initial url request)
@@ -7,7 +7,7 @@
 # text: the text that you have send back to the django just like you would have sent it was a html url
 import requests
 import json
-file_path = './../storage/test.pdf' 
+file_path = './../storage/test.pdf'
 file_data = {'file': open(file_path,'rb')}
 
 response = requests.post('http://10.4.24.5:8004/pdfupload', files=file_data)
