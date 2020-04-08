@@ -1,6 +1,4 @@
- '''sample test case for pdf'''
- # Data types
-
+# Data types
 # file_path: path to the pdf file to be extracted
 # routes['pdf_upload']: The route to call to send the file across to pdf parser container (the route will be sent in the initial url request)
 # routes['pdf_upload']: The route to call to extract the text from the pdf (the route will be sent in the initial url request)

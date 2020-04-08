@@ -7,6 +7,26 @@ import requests
 import textract
 from fpdf import FPDF
 
+def writetopdf(text, name):
+	'''write text to pdf'''
+	try:
+		# save FPDF() class into a
+		# variable pdf
+		pdf = FPDF('P', 'mm', 'A4')
+		pdf.set_auto_page_break(True, 5)
+		# Add a page
+		pdf.add_page()
+		#set font
+		pdf.set_font('Arial')
+		text = re.sub("\n+", "\n", text.decode())
+		pdf.multi_cell(0, 5, text)
+		pdf.ln()
+		pdf.output(name)
+		return "success"
+	except:
+		# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'ERROR in loading'})
+		print("ERROR in loading")
+		return None
 
 class ConvertTopdf():
 	'''converts files to pdf'''
@@ -61,26 +81,6 @@ class ConvertTopdf():
 			text = json.loads(response.text)
 			# print(text)
 			return text
-		except:
-			# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'ERROR in loading'})
-			print("ERROR in loading")
-			return None
-	def writetopdf(self, text, name):
-		'''write text to pdf'''
-		try:
-			# save FPDF() class into a
-			# variable pdf
-			pdf = FPDF('P', 'mm', 'A4')
-			pdf.set_auto_page_break(True, 5)
-			# Add a page
-			pdf.add_page()
-			#set font
-			pdf.set_font('Arial')
-			text = re.sub("\n+", "\n", text.decode())
-			pdf.multi_cell(0, 5, text)
-			pdf.ln()
-			pdf.output(name)
-			return "success"
 		except:
 			# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'ERROR in loading'})
 			print("ERROR in loading")

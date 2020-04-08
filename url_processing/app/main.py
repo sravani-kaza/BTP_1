@@ -23,4 +23,4 @@ def hello():
 	return "hello world from url_processing"
 
 if __name__ == '__main__':
-	app.run(debug=True)#'0.0.0.0',debug=True,port=80)
+	app.run('0.0.0.0',debug=True,port=80)
