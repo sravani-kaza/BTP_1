@@ -7,15 +7,17 @@ import requests
 import textract
 from fpdf import FPDF
 
-class MyError(Exception): 
-  
-    # Constructor or Initializer 
-    def __init__(self, value): 
-        self.value = value 
-  
-    # __str__ is to print() the value 
-    def __str__(self): 
-        return(repr(self.value)) 	
+class MyError(Exception):
+	"""Constructor Initialiser."""
+
+	def __init__(self, value):
+		"""Initialises."""
+		Exception.__init__(self)
+		self.value = value
+
+	def __str__(self):
+		"""Prints error."""
+		(repr(self.value))
 
 def writetopdf(text, name):
 	"""Write text to pdf."""
@@ -33,14 +35,13 @@ def writetopdf(text, name):
 		pdf.ln()
 		pdf.output(name)
 		return "success"
-	except MyError as error: 
-		# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'ERROR in loading'})
-		print('A New Exception occured: ',error.value) 
+	except MyError as error:
+		print('A New Exception occured: ', error.value)
 		return None
 
 class ConvertTopdf():
 	"""Converts files to pdf."""
-	
+
 	def __init__(self, url, typeoffile, pdf):
 		"""Initialises pdf conversion."""
 		self.url = url
@@ -65,7 +66,7 @@ class ConvertTopdf():
 			    file.close()
 			if self.type not in ["pdf"]:
 				text = textract.process(self.path+fname+'.'+self.type)
-				self.writetopdf(text, self.path+fname+'.'+'pdf')
+				writetopdf(text, self.path+fname+'.'+'pdf')
 				self.type = 'pdf'
 			file_path = self.path+fname+'.'+'pdf'
 			file = fname+'.pdf'
@@ -76,7 +77,6 @@ class ConvertTopdf():
 			response = requests.post(self.pdf['pdf_upload'], files=file_data)
 			# print("hello" ,response.status_code)
 			if response.status_code != 200:
-				# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'ERROR in post request response to pdf'})
 				print("ERROR in post request response to pdf")
 				return None
 			parser_file_path = "./PDFs/" + file
@@ -85,7 +85,6 @@ class ConvertTopdf():
 			# print(file)
 			response = requests.post(self.pdf['pdf_parser'], json=json.dumps(dict_json))
 			if response.status_code != 200:
-				# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'ERROR in post request response to pdf'})
 				print("ERROR in post request response to pdf")
 				return None
 			# print("hiii",response.text)
@@ -93,5 +92,8 @@ class ConvertTopdf():
 			# print(text)
 			return text
 		except MyError as error:
-			print('A New Exception occured: ',error.value)
+			print('A New Exception occured: ', error.value)
 			return None
+	def hello(self):
+		"""Does Nothing."""
+		print("hello", self)

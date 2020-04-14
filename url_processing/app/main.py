@@ -1,10 +1,10 @@
 """Does url processing."""
 # pylint: disable=W0312
+import os
 from flask import Flask
 from flask import request
 from scrape import DoScraping
 
-import os
 
 LOG_ENABLE = os.environ["DEPLOYED"] if "DEPLOYED" in os.environ else ''
 
@@ -13,8 +13,8 @@ if LOG_ENABLE == "1":
     LOG = Logger(os.getenv('LOGGER_ADDR'))
 
 
-app = Flask(__name__)
-@app.route('/extract_page', methods=['POST'])
+APP = Flask(__name__)
+@APP.route('/extract_page', methods=['POST'])
 def processurl():
 	"""Processes the url as html or pdf.Arg: data => input json object with url."""
 	data = request.get_json(force=True)
@@ -28,10 +28,10 @@ def processurl():
 
 	return response
 
-@app.route('/')
+@APP.route('/')
 def hello():
 	"""Hello world."""
 	return "hello world from url_processing"
 
 if __name__ == '__main__':
-	app.run(debug=True)#'0.0.0.0',debug=True,port=80)
+	APP.run(debug=True)#'0.0.0.0',debug=True,port=80)
