@@ -40,6 +40,7 @@ def writetopdf(text, name):
 		return None
 
 class ConvertTopdf():
+
 	"""Converts files to pdf."""
 
 	def __init__(self, url, typeoffile, pdf):

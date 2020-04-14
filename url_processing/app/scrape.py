@@ -98,6 +98,7 @@ def type_url(response):
 # 		rowspans = {c: s - 1 for c, s in rowspans.items() if s > 1}
 # 	return table
 class DoScraping():
+
 	"""Does Web scraping for HTML Pages.urls: url to be summarised."""
 
 	def __init__(self, url, pdf):
