@@ -99,6 +99,7 @@ def table_to_2d(table_tag):
 	return table
 class DoScraping():
 	"""Does Web scraping for HTML Pages.urls: url to be summarised."""
+
 	def __init__(self, url, pdf):
 		"""Initialises."""
 		self.url = url
@@ -109,7 +110,7 @@ class DoScraping():
 		self.xml = []
 		self.pdf = pdf
 	def classify_url(self):
-		"""Checks the url and classifies the url"""
+		"""Checks the url and classifies the url."""
 		#check if url exists
 		try:
 			ret = urlopen(self.url)

@@ -7,6 +7,16 @@ import requests
 import textract
 from fpdf import FPDF
 
+class MyError(Exception): 
+  
+    # Constructor or Initializer 
+    def __init__(self, value): 
+        self.value = value 
+  
+    # __str__ is to print() the value 
+    def __str__(self): 
+        return(repr(self.value)) 	
+
 def writetopdf(text, name):
 	"""Write text to pdf."""
 	try:
@@ -23,13 +33,14 @@ def writetopdf(text, name):
 		pdf.ln()
 		pdf.output(name)
 		return "success"
-	except:
+	except MyError as error: 
 		# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'ERROR in loading'})
-		print("ERROR in loading")
+		print('A New Exception occured: ',error.value) 
 		return None
 
 class ConvertTopdf():
 	"""Converts files to pdf."""
+	
 	def __init__(self, url, typeoffile, pdf):
 		"""Initialises pdf conversion."""
 		self.url = url
@@ -81,7 +92,6 @@ class ConvertTopdf():
 			text = json.loads(response.text)
 			# print(text)
 			return text
-		except:
-			# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'ERROR in loading'})
-			print("ERROR in loading")
+		except MyError as error:
+			print('A New Exception occured: ',error.value)
 			return None
