@@ -1,4 +1,4 @@
-'''Does url processing'''
+'''Does url processing.'''
 # pylint: disable=W0312
 from flask import Flask
 from flask import request
@@ -16,8 +16,8 @@ if LOG_ENABLE == "1":
 app = Flask(__name__)
 @app.route('/extract_page', methods=['POST'])
 def processurl():
-	'''Processes the url as html or pdf
-	Arg: data => input json object with url,'''
+	'''Processes the url as html or pdf.
+	Arg: data => input json object with url.'''
 	data = request.get_json(force=True)
 	url = data['url']
 	pdf = {'pdf_upload' : data['pdf_upload'], 'pdf_parser' : data['pdf_parser']}
@@ -31,7 +31,7 @@ def processurl():
 
 @app.route('/')
 def hello():
-	'''hello world'''
+	'''hello world.ss'''
 	return "hello world from url_processing"
 
 if __name__ == '__main__':

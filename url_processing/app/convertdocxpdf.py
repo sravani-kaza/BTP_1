@@ -1,4 +1,4 @@
-'''docx to pdf converter.'''
+'''Docx to pdf converter.'''
 # pylint: disable=W0312
 import os
 import re
@@ -8,7 +8,7 @@ import textract
 from fpdf import FPDF
 
 def writetopdf(text, name):
-	'''write text to pdf'''
+	'''Write text to pdf.'''
 	try:
 		# save FPDF() class into a
 		# variable pdf
@@ -29,9 +29,9 @@ def writetopdf(text, name):
 		return None
 
 class ConvertTopdf():
-	'''converts files to pdf'''
+	'''Converts files to pdf.'''
 	def __init__(self, url, typeoffile, pdf):
-		'''initialises pdf conversion'''
+		'''Initialises pdf conversion.'''
 		self.url = url
 		self.type = typeoffile
 		self.pdf = pdf
@@ -39,7 +39,7 @@ class ConvertTopdf():
 		# rindex = os.path.rfind('/')
 		self.path = os.path.dirname(os.path.abspath(__file__))+'/storage/'
 	def process(self):
-		'''processes url of word documents'''
+		'''Processes url of word documents.'''
 		try:
 			right = requests.get(self.url, stream=True)
 			fname = ""
