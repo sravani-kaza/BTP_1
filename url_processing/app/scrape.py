@@ -16,8 +16,7 @@ HEADERS = ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8"]
 KILL = ["script", "style", "footer", "symbol", "img", "meta", "[document]", "nav", "input"]
 TEXT = ["p"]
 def type_url(response):
-		"""Categorises url into pdf, webpage, docx.
-		:Arg response => json response of url on request."""
+		"""Categorises url into pdf, webpage, docx.:Arg response => json response of url on request."""
 		content_type = response.headers.get('content-type')
 		ext = ''
 		if 'application/pdf' in content_type:
@@ -99,8 +98,7 @@ def table_to_2d(table_tag):
 		rowspans = {c: s - 1 for c, s in rowspans.items() if s > 1}
 	return table
 class DoScraping():
-	"""does Web scraping for HTML Pages.
-	urls: url to be summarised."""
+	"""Does Web scraping for HTML Pages.urls: url to be summarised."""
 	def __init__(self, url, pdf):
 		"""Initialises."""
 		self.url = url
@@ -111,7 +109,7 @@ class DoScraping():
 		self.xml = []
 		self.pdf = pdf
 	def classify_url(self):
-		"""checks the url and classifies the url"""
+		"""Checks the url and classifies the url"""
 		#check if url exists
 		try:
 			ret = urlopen(self.url)
