@@ -1,14 +1,16 @@
 '''Does url processing'''
 # pylint: disable=W0312
-import os
 from flask import Flask
 from flask import request
 from scrape import DoScraping
 
-# LOG_ENABLE = os.environ["DEPLOYED"]
-# if LOG_ENABLE == "1":
-#     from logger import Logger
-#     LOG = Logger(os.getenv('LOGGER_ADDR'))
+import os
+
+LOG_ENABLE = os.environ["DEPLOYED"] if "DEPLOYED" in os.environ else ''
+
+if LOG_ENABLE == "1":
+    from logger import Logger
+    LOG = Logger(os.getenv('LOGGER_ADDR'))
 
 
 app = Flask(__name__)
@@ -22,8 +24,8 @@ def processurl():
 	response = DoScraping(url, pdf).classify_url()
 	# print(response)
 
-	# if LOG_ENABLE == "1":
-	# 	LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'URL processed successfully')
+	if LOG_ENABLE == "1":
+		LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'URL processed successfully')
 
 	return response
 
