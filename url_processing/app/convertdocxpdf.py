@@ -95,6 +95,6 @@ class ConvertTopdf():
 		except MyError as error:
 			print('A New Exception occured: ', error.value)
 			return None
-	def hello(self):
+	def hiiii(self):
 		"""Does Nothing."""
 		print("hello", self)
