@@ -1,4 +1,4 @@
-'''WebScraper.'''
+"""WebScraper."""
 # pylint: disable=W0312
 # import os
 # import requests
@@ -16,8 +16,8 @@ HEADERS = ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8"]
 KILL = ["script", "style", "footer", "symbol", "img", "meta", "[document]", "nav", "input"]
 TEXT = ["p"]
 def type_url(response):
-		'''Categorises url into pdf, webpage, docx.
-		:Arg response => json response of url on request.'''
+		"""Categorises url into pdf, webpage, docx.
+		:Arg response => json response of url on request."""
 		content_type = response.headers.get('content-type')
 		ext = ''
 		if 'application/pdf' in content_type:
@@ -40,7 +40,7 @@ def type_url(response):
 			ext = None
 		return ext
 def table_to_2d(table_tag):
-	'''Converts a given tabe to 2d lists.'''
+	"""Converts a given tabe to 2d lists."""
 	rowspans = []
 	# track pending rowspans
 	rows = table_tag.find_all('tr')
@@ -99,10 +99,10 @@ def table_to_2d(table_tag):
 		rowspans = {c: s - 1 for c, s in rowspans.items() if s > 1}
 	return table
 class DoScraping():
-	'''does Web scraping for HTML Pages.
-	urls: url to be summarised.'''
+	"""does Web scraping for HTML Pages.
+	urls: url to be summarised."""
 	def __init__(self, url, pdf):
-		'''Initialises.'''
+		"""Initialises."""
 		self.url = url
 		self.data = {}
 		self.text = ""
@@ -111,7 +111,7 @@ class DoScraping():
 		self.xml = []
 		self.pdf = pdf
 	def classify_url(self):
-		'''checks the url and classifies the url'''
+		"""checks the url and classifies the url"""
 		#check if url exists
 		try:
 			ret = urlopen(self.url)
@@ -149,7 +149,7 @@ class DoScraping():
 		# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'URL is not accepted'})
 		return json.dumps({"error":"URL is not accepted"})
 	def process(self):
-		'''Processes the url to text.'''
+		"""Processes the url to text."""
 		try:
 			html = urlopen(self.url)
 		except urllib.error.HTTPError as error:
