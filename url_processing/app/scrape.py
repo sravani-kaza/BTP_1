@@ -115,15 +115,14 @@ class DoScraping():
 		#check if url exists
 		try:
 			ret = urlopen(self.url)
-		except:
-			except urllib.error.HTTPError as error:
+		except urllib.error.HTTPError as error:
 			print("ERROR:", error.__dict__)
 			# requests.post(os.getenv('LOGGER_ADDR'), params={'service':'url_processing', 'method':'POST', 'org':'NULL', 'org_input':'NULL', 'message':'ERROR in opening url'})
 			return None
 		except urllib.error.URLError as error:
 			print("ERROR:", error.__dict__)
 			return None
-		urltype = self.type_url(ret)
+		urltype = type_url(ret)
 		final = {}
 		if urltype == 'html':
 			result = self.process()
@@ -192,7 +191,7 @@ class DoScraping():
 		# 				body += [cols]
 		# 		eacht['header'] = header
 		# 		eacht['caption'] = caption
-		# 		eacht['body'] = self.table_to_2d(node)
+		# 		eacht['body'] = table_to_2d(node)
 		# 		self.tables.append([eacht])
 		#extract text
 		for script in soup(["table", "svg"]):
