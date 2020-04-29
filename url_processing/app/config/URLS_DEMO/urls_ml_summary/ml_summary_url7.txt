@@ -1,0 +1,10 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 201 CREATED
+Server: nginx/1.17.9
+Date: Tue, 21 Apr 2020 08:58:09 GMT
+Content-Type: application/json
+Content-Length: 547
+Connection: keep-alive
+
+{"long_summary":"For example, some banks offer less-common investing strategies, such as allowing you to create collateralized loans against securities in your asset management account at highly attractive rates..Accessed Feb. 17, 2020..Northern Trust.","short_summary":"For example, some banks offer less-common investing strategies, such as allowing you to create collateralized loans against securities in your asset management account at highly attractive rates..Accessed Feb. 17, 2020..Northern Trust.","words_in_lsum":[],"words_in_ssum":[]}

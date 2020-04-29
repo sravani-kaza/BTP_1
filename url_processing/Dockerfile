@@ -9,4 +9,3 @@ RUN pip install -r /tmp/requirements.txt
 COPY ./app /app
 
 ENV PROCESSING_PORT "80"
-ENV LOGGER_ADDR="http://log"

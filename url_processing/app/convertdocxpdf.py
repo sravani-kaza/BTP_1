@@ -10,10 +10,10 @@ from fpdf import FPDF
 class MyError(Exception):
 	"""Constructor Initialiser."""
 
-	def __init__(self, value):
+	def __init__(self):
 		"""Initialises."""
 		Exception.__init__(self)
-		self.value = value
+		self.value = "URL cant be opened"
 
 	def __str__(self):
 		"""Prints error."""
@@ -35,8 +35,8 @@ def writetopdf(text, name):
 		pdf.ln()
 		pdf.output(name)
 		return "success"
-	except MyError as error:
-		print('A New Exception occured: ', error.value)
+	except:# MyError as error:
+		print('pdf cannot be written')
 		return None
 
 class ConvertTopdf():
@@ -92,8 +92,8 @@ class ConvertTopdf():
 			text = json.loads(response.text)
 			# print(text)
 			return text
-		except MyError as error:
-			print('A New Exception occured: ', error.value)
+		except : #MyError as error:
+			print('pdf cannot be opened')
 			return None
 	def hiiii(self):
 		"""Does Nothing."""

@@ -1,0 +1,10 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 201 CREATED
+Server: nginx/1.15.8
+Date: Tue, 21 Apr 2020 08:47:44 GMT
+Content-Type: application/json
+Content-Length: 1498
+Connection: keep-alive
+
+{"long_summary":"Competition is fierce, but so are the opportunities..The need to tackle ongoing regulatory pressure, coupled with demands for more investor-level transparency, set the tone for much of last year. At the same time, we saw a return of volatility, which created opportunities for many active managers, and the continued expansion in the passively-managed segment of the market. The year saw many new innovative products come to market, as investment managers of all shapes, sizes and asset classes strove to stand out. We also saw many firms across the landscape adopting next-generation technologies, such as AI, to help optimize their operations..So, whats next? To understand the direction of the investment management technology landscape, we look to whats driving our clients in the alternative and traditional asset management sectors. Here are key investment management trends were watching in 2019:.Growth & Diversification.Competition continues to present challenges to investment managers in the traditional and alternative markets alike. ","short_summary":"Competition is fierce, but so are the opportunities..The need to tackle ongoing regulatory pressure, coupled with demands for more investor-level transparency, set the tone for much of last year. At the same time, we saw a return of volatility, which created opportunities for many active managers, and the continued expansion in the passively-managed segment of the market. ","words_in_lsum":[],"words_in_ssum":[]}

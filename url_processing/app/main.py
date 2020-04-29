@@ -13,11 +13,12 @@ if LOG_ENABLE == "1":
     LOG = Logger(os.getenv('LOGGER_ADDR'))
 
 
-APP = Flask(__name__)
-@APP.route('/extract_page', methods=['POST'])
+app = Flask(__name__)
+@app.route('/extract_page', methods=['POST'])
 def processurl():
 	"""Processes the url as html or pdf.Arg: data => input json object with url."""
 	data = request.get_json(force=True)
+	print(data)
 	url = data['url']
 	pdf = {'pdf_upload' : data['pdf_upload'], 'pdf_parser' : data['pdf_parser']}
 	response = DoScraping(url, pdf).classify_url()
@@ -25,13 +26,13 @@ def processurl():
 
 	if LOG_ENABLE == "1":
 		LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'URL processed successfully')
-
+	# print(response)
 	return response
 
-@APP.route('/')
+@app.route('/')
 def hello():
 	"""Hello world."""
 	return "hello world from url_processing"
 
 if __name__ == '__main__':
-	APP.run(debug=True)#'0.0.0.0',debug=True,port=80)
+	app.run('0.0.0.0',debug=True,port=80)

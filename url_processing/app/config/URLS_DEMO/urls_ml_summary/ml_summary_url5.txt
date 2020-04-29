@@ -1,0 +1,10 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 201 CREATED
+Server: nginx/1.17.9
+Date: Tue, 21 Apr 2020 08:54:47 GMT
+Content-Type: application/json
+Content-Length: 737
+Connection: keep-alive
+
+{"long_summary":"With new regulation nudging it toward records, the RIA movement has put advisors at the center of every trend..To see what trends looked ready to reshape the industry at this time last year, see 19 Trends to Watch in 2019..To view the list of the main factors expected to spark change next year, scroll through our slideshow..Tags","short_summary":"With new regulation nudging it toward records, the RIA movement has put advisors at the center of every trend..To see what trends looked ready to reshape the industry at this time last year, see 19 Trends to Watch in 2019..To view the list of the main factors expected to spark change next year, scroll through our slideshow..Tags","words_in_lsum":[],"words_in_ssum":[]}

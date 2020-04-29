@@ -15,6 +15,20 @@ from convertdocxpdf import ConvertTopdf
 HEADERS = ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8"]
 KILL = ["script", "style", "footer", "symbol", "img", "meta", "[document]", "nav", "input"]
 TEXT = ["p"]
+
+class MyError_1(Exception):
+	"""Constructor Initialiser."""
+
+	def __init__(self, value):
+		"""Initialises."""
+		Exception.__init__(self)
+		self.value = value
+
+	def __str__(self):
+		"""Prints error."""
+		(repr(self.value))
+
+
 def type_url(response):
 		"""Categorises url into pdf, webpage, docx.:Arg response => json response of url on request."""
 		content_type = response.headers.get('content-type')
@@ -114,45 +128,47 @@ class DoScraping():
 		"""Checks the url and classifies the url."""
 		#check if url exists
 		try:
-			ret = urlopen(self.url)
-		except urllib.error.HTTPError as error:
-			print("ERROR:", error.__dict__)
-			# return None
-		except urllib.error.URLError as error:
-			print("ERROR:", error.__dict__)
-			# return None
-		urltype = type_url(ret)
-		final = {}
-		if urltype == 'html':
-			result = self.process()
-			if result is not None:
-				final['text'] = result['text']
-				# final['headings'] = result['headings']
-				# final['tables'] = result['tables']
+			ret = urlopen(self.url,timeout=60)
+			urltype = type_url(ret)
+			final = {}
+			if urltype == 'html':
+				result = self.process()
+				if result is not None:
+					final['text'] = result['text']
+					# final['headings'] = result['headings']
+					# final['tables'] = result['tables']
+					final['type'] = 'html'
+					return json.dumps(final)
+				return json.dumps({"error":"Error in processing URL"})
+			if urltype is None:
+				return json.dumps({'error':'URL Rejected : Unknow Type document'})
+			if urltype in ["pdf", "doc", "docx", "xls", "xlsx", "pptx", "odt", "txt"]:
+				#convert all to pdf
 				final['type'] = 'html'
+				response_pdf = ConvertTopdf(self.url, urltype, self.pdf).process()
+				if response_pdf is None:
+					return json.dumps({"error":"Input url file cannot be processed"})
+				final['text'] = response_pdf['pdfs'][0]
 				return json.dumps(final)
-			return json.dumps({"error":"Error in processing URL"})
-		if urltype is None:
-			return json.dumps({'error':'URL Rejected : Unknow Type document'})
-		if urltype in ["pdf", "doc", "docx", "xls", "xlsx", "pptx", "odt", "txt"]:
-			#convert all to pdf
-			final['type'] = 'html'
-			response_pdf = ConvertTopdf(self.url, urltype, self.pdf).process()
-			if response_pdf is None:
-				return json.dumps({"error":"Input url file cannot be processed"})
-			final['text'] = response_pdf['pdfs'][0]
-			return json.dumps(final)
-		return json.dumps({"error":"URL is not accepted"})
+			return json.dumps({"error":"URL is not accepted"})
+		# except urllib.error.HTTPError as error:
+		# 	# print("ERROR:", error.__dict__)
+		# 	return None
+		except:# MyError_1 as error:
+			print("ERROR:")
+			return json.dumps({"error":"URL is not accepted"})
 	def process(self):
 		"""Processes the url to text."""
 		try:
 			html = urlopen(self.url)
 		except urllib.error.HTTPError as error:
-			print("ERROR:", error.__dict__)
-			return None
+			# print("ERROR:", error.__dict__)
+			return json.dumps({"error":"URL is not accepted"})
 		except urllib.error.URLError as error:
-			print("ERROR:", error.__dict__)
-			return None
+			# print("ERROR:", error.__dict__)
+			return json.dumps({"error":"URL is not accepted"})
+		except :
+			return json.dumps({"error":"URL is not accepted"})
 		text_html = html.read()
 		soup = BeautifulSoup(text_html, 'html.parser')
 		# self.data['xml'] = copy(soup)
@@ -202,9 +218,18 @@ class DoScraping():
 				continue
 			if tag.name in ["p"]+HEADERS:
 				if len(eachtext) > 0:
-					text.append(re.sub('\n+', '.', str(eachtext)))
+					final_text = re.sub('\n+', '\n', str(eachtext))
+					printable = ""
+					for char in final_text:
+						if char.isprintable() == True:
+							printable = printable + char
+					printable = printable.encode('ascii', errors='ignore').strip().decode('ascii')
+					printable = re.sub('\n+', '.', str(printable))
+					if len(printable) > 1:
+						text.append(re.sub('\n+', '.', str(printable)))
 		self.text = '.'.join(chunk for chunk in text if chunk)
 		# print(self.text)
+		# print("Tables")
 		self.data['text'] = self.text
 		# self.data['tables'] = self.tables
 		# self.data['headings'] = self.headings

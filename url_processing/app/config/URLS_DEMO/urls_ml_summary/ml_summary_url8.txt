@@ -1,0 +1,10 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 201 CREATED
+Server: nginx/1.17.9
+Date: Tue, 21 Apr 2020 09:00:17 GMT
+Content-Type: application/json
+Content-Length: 1721
+Connection: keep-alive
+
+{"long_summary":"The property manager acts on behalf of the owner to preserve the value of the property while generating income..Breaking Down Property Management.In property management, some real estate brokers also operate as property managers..States such as Delaware, Florida, and Illinois require property management companies that provide on-site management services to condominium communities to hold community management licenses..Related Terms.Related Articles.Real Estate Investing.Investing in Out-of-State Property.Real Estate Investing.Should You Buy a House at Auction?.Real Estate Investing.An Introduction to Buying a Condominium.Real Estate Investing.Would You Make a Good Real Estate Broker?.Real Estate Investing.9 Things to Know About Homeowners Associations.Real Estate Investing.4 Simple Ways to Invest in Real Estate","short_summary":"The property manager acts on behalf of the owner to preserve the value of the property while generating income..Breaking Down Property Management.In property management, some real estate brokers also operate as property managers..States such as Delaware, Florida, and Illinois require property management companies that provide on-site management services to condominium communities to hold community management licenses..Related Terms.Related Articles.Real Estate Investing.Investing in Out-of-State Property.Real Estate Investing.Should You Buy a House at Auction?.Real Estate Investing.An Introduction to Buying a Condominium.Real Estate Investing.Would You Make a Good Real Estate Broker?.Real Estate Investing.9 Things to Know About Homeowners Associations.Real Estate Investing.4 Simple Ways to Invest in Real Estate","words_in_lsum":[],"words_in_ssum":[]}

@@ -1,0 +1,10 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 201 CREATED
+Server: nginx/1.17.9
+Date: Tue, 21 Apr 2020 08:56:59 GMT
+Content-Type: application/json
+Content-Length: 887
+Connection: keep-alive
+
+{"long_summary":"An example in which public asset management is used is land-use development and planning..Intellectual and non-physical asset management[edit].Increasingly both consumers and organizations use assets, e.g..[4].See also[edit].References[edit].Further reading[edit].External links[edit].Navigation menu.Personal tools.Namespaces.Variants.Views.More.Search.Navigation.Interaction.Tools.Print/export.Languages","short_summary":"An example in which public asset management is used is land-use development and planning..Intellectual and non-physical asset management[edit].Increasingly both consumers and organizations use assets, e.g..[4].See also[edit].References[edit].Further reading[edit].External links[edit].Navigation menu.Personal tools.Namespaces.Variants.Views.More.Search.Navigation.Interaction.Tools.Print/export.Languages","words_in_lsum":[],"words_in_ssum":[]}
