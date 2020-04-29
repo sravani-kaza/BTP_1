@@ -1,6 +1,6 @@
 import nose
-import json
-import requests 
+# import json
+import requests
 
 # Test1 - Empty URL
 def test_empty_url():
@@ -34,5 +34,5 @@ def test_docx_url():
 	res = requests.post('http://127.0.0.1:5000/extract_page', json=dictToSend)
 	assert res.status_code == 200
 
-if __name__ == '__main__':   
+if __name__ == '__main__':
     nose.run()

@@ -92,7 +92,7 @@ class ConvertTopdf():
 			text = json.loads(response.text)
 			# print(text)
 			return text
-		except : #MyError as error:
+		except: #MyError as error:
 			print('pdf cannot be opened')
 			return None
 	def hiiii(self):

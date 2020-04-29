@@ -16,7 +16,7 @@ HEADERS = ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8"]
 KILL = ["script", "style", "footer", "symbol", "img", "meta", "[document]", "nav", "input"]
 TEXT = ["p"]
 
-class MyError_1(Exception):
+class MyErrore(Exception):
 	"""Constructor Initialiser."""
 
 	def __init__(self, value):
@@ -128,7 +128,7 @@ class DoScraping():
 		"""Checks the url and classifies the url."""
 		#check if url exists
 		try:
-			ret = urlopen(self.url,timeout=60)
+			ret = urlopen(self.url, timeout=45)
 			urltype = type_url(ret)
 			final = {}
 			if urltype == 'html':
@@ -139,7 +139,7 @@ class DoScraping():
 					# final['tables'] = result['tables']
 					final['type'] = 'html'
 					return json.dumps(final)
-				return json.dumps({"error":"Error in processing URL"})
+				# return json.dumps({"error":"Error in processing URL"})
 			if urltype is None:
 				return json.dumps({'error':'URL Rejected : Unknow Type document'})
 			if urltype in ["pdf", "doc", "docx", "xls", "xlsx", "pptx", "odt", "txt"]:
@@ -162,12 +162,12 @@ class DoScraping():
 		try:
 			html = urlopen(self.url)
 		except urllib.error.HTTPError as error:
-			# print("ERROR:", error.__dict__)
+			print("ERROR:", error.__dict__)
 			return json.dumps({"error":"URL is not accepted"})
-		except urllib.error.URLError as error:
-			# print("ERROR:", error.__dict__)
-			return json.dumps({"error":"URL is not accepted"})
-		except :
+		# except urllib.error.URLError as error:
+		# 	print("ERROR:", error.__dict__)
+		# 	return json.dumps({"error":"URL is not accepted"})
+		except:
 			return json.dumps({"error":"URL is not accepted"})
 		text_html = html.read()
 		soup = BeautifulSoup(text_html, 'html.parser')
@@ -210,9 +210,7 @@ class DoScraping():
 		for tag in soup.findAll(TEXT+HEADERS):
 			eachtext = re.sub(' +', ' ', str(tag.text.strip()))
 			# print(tag)
-			if tag.parent.name in TEXT+HEADERS:
-				continue
-			if isinstance(tag, Comment) or tag.name in ["li"]:
+			if tag.parent.name in TEXT+HEADERS or isinstance(tag, Comment) or tag.name in ["li"]:
 				continue
 			if tag.name in ["a", "href", "span"]:
 				continue
@@ -221,7 +219,7 @@ class DoScraping():
 					final_text = re.sub('\n+', '\n', str(eachtext))
 					printable = ""
 					for char in final_text:
-						if char.isprintable() == True:
+						if char.isprintable() == 1:
 							printable = printable + char
 					printable = printable.encode('ascii', errors='ignore').strip().decode('ascii')
 					printable = re.sub('\n+', '.', str(printable))
