@@ -1,8 +1,5 @@
 from itertools import product
 from bs4 import BeautifulSoup
-from bs4.element import Comment
-
-
 def table_to_2d(table_tag):
 	"""Converts a given table to matrix."""
 	rowspans = []
@@ -20,10 +17,8 @@ def table_to_2d(table_tag):
 	    # update rowspan bookkeeping; 0 is a span to the bottom.
 	    rowspans += [int(c.get('rowspan', 1)) or len(rows) - rowno for c in cells]
 	    rowspans = [s - 1 for s in rowspans if s > 1]
- 	
-	# build an empty matrix for all possible cells
+ 	# build an empty matrix for all possible cells
 	table = [[None] * colcount for row in rows]
-
 	# fill matrix from row data
 	rowspans = {}  # track pending rowspans, column number mapping to count
 	for row, row_elem in enumerate(rows):
@@ -34,8 +29,7 @@ def table_to_2d(table_tag):
 			while rowspans.get(col, 0):
 				span_offset += 1
 				col += 1
-
-	        # fill table data
+			# fill table data
 			rowspan = rowspans[col] = int(cell.get('rowspan', 1)) or len(rows) - row
 			colspan = int(cell.get('colspan', 1)) or colcount - col
 			# next column is offset by the colspan
@@ -44,7 +38,6 @@ def table_to_2d(table_tag):
 			final_value = ''
 			for text in value:
 				final_value += text+" "
-
 			for drow, dcol in product(range(rowspan), range(colspan)):
 				try:
 					table[row + drow][col + dcol] = final_value

@@ -68,7 +68,7 @@
 # # #                                     dest_path='./1.zip',
 # # #                                     unzip=True)
 # # # print(time.time()-s)
-import gdown
+# import gdown
 import os
 import time
 s = time.time()
@@ -84,9 +84,8 @@ print(time.time()-s)
 # # gauth.LocalWebserverAuth()
 # # drive = GoogleDrive(gauth)
 # # file_obj = drive.CreateFile({'id':'1IBwyevFQC-ggKiDu8qIFr7T9va7CZhxu'})
-# # file_obj.GetContentFile('Demo.txt') 
+# # file_obj.GetContentFile('Demo.txt')
 # # print(time.time()-s)
-
 
 # from urllib.request import urlretrieve
 # onedriveURL = "https://onedrive.live.com/download?cid=9194394ABFA6631C&resid=9194394ABFA6631C%2127355&authkey=AO6VrIdT_CZ_HU0"

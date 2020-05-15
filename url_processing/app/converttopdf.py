@@ -9,7 +9,6 @@ from fpdf import FPDF
 
 
 class ConvertTopdf():
-
 	"""Converts files to pdf."""
 
 	def __init__(self, url, typeoffile, pdf, filename):
