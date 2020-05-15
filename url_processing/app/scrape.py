@@ -1,89 +1,42 @@
 """WebScraper."""
 # pylint: disable=W0312
-# import os
-# import requests
 import re
+import os
 import json
 from urllib.request import urlopen
 import urllib.error
 from itertools import product
-# from copy import copy
 from bs4 import BeautifulSoup
 from bs4.element import Comment
-from convertdocxpdf import ConvertTopdf
+LOG_ENABLE = os.environ["DEPLOYED"] if "DEPLOYED" in os.environ else ''
 
+if LOG_ENABLE == "1":
+    from logger import Logger
+    LOG = Logger(os.getenv('LOGGER_ADDR'))
 
 HEADERS = ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8"]
-KILL = ["script", "style", "footer", "symbol", "img", "meta", "[document]", "nav", "input"]
-TEXT = ["p"]
+KILL = ["script", "style", "footer", "symbol", "meta", "[document]", "nav", "input"]
+TEXT = ["p", "li", "img"]
 
-class MyErrore(Exception):
-	"""Constructor Initialiser."""
-
-	def __init__(self, value):
-		"""Initialises."""
-		Exception.__init__(self)
-		self.value = value
-
-	def __str__(self):
-		"""Prints error."""
-		(repr(self.value))
-
-
-def type_url(response):
-		"""Categorises url into pdf, webpage, docx.:Arg response => json response of url on request."""
-		content_type = response.headers.get('content-type')
-		ext = ''
-		if 'application/pdf' in content_type:
-	 		ext = 'pdf'
-		elif 'text/html' in content_type:
-	 		ext = 'html'
-		# elif 'application/msword' in content_type:
-		# 		ext = 'doc'
-		elif 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' in content_type:
-			ext = 'docx'
-		elif ' application/vnd.ms-excel' in content_type:
-			ext = 'xls'
-		elif 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' in content_type:
-			ext = 'xlsx'
-		elif 'application/vnd.ms-powerpoint' or 'application/x-powerpoint' in content_type:
-			ext = 'ppt'
-		elif 'application/vnd.openxmlformats-officedocument.presentationml.presentation' in content_type:
-			ext = 'pptx'
-		else:
-			ext = None
-		return ext
+#tables commented for now
 def table_to_2d(table_tag):
-	"""Converts a given tabe to 2d lists."""
+	"""Converts a given table to matrix."""
 	rowspans = []
 	# track pending rowspans
 	rows = table_tag.find_all('tr')
-
 	# first scan, see how many columns we need
 	colcount = 0
 	for rowno, row in enumerate(rows):
 	    cells = row.find_all(['td', 'th'], recursive=False)
 	    # count columns (including spanned).
-	    # add active rowspans from preceding rows
-	    # we *ignore* the colspan value on the last cell, to prevent
-	    # creating 'phantom' columns with no actual cells, only extended
-	    # colspans. This is achieved by hardcoding the last cell width as 1.
-	    # a colspan of 0 means “fill until the end” but can really only apply
-	    # to the last cell; ignore it elsewhere.
 	    colcount = max(
 	        colcount,
 	        sum(int(c.get('colspan', 1)) or 1 for c in cells[:-1]) + len(cells[-1:]) + len(rowspans))
 	    # update rowspan bookkeeping; 0 is a span to the bottom.
 	    rowspans += [int(c.get('rowspan', 1)) or len(rows) - rowno for c in cells]
 	    rowspans = [s - 1 for s in rowspans if s > 1]
-
-	# it doesn't matter if there are still rowspan numbers 'active'; no extra
-	# rows to show in the table means the larger than 1 rowspan numbers in the
-	# last table row are ignored.
-
-	# build an empty matrix for all possible cells
+ 	# build an empty matrix for all possible cells
 	table = [[None] * colcount for row in rows]
-
 	# fill matrix from row data
 	rowspans = {}  # track pending rowspans, column number mapping to count
 	for row, row_elem in enumerate(rows):
@@ -94,17 +47,15 @@ def table_to_2d(table_tag):
 			while rowspans.get(col, 0):
 				span_offset += 1
 				col += 1
-
-	        # fill table data
+			# fill table data
 			rowspan = rowspans[col] = int(cell.get('rowspan', 1)) or len(rows) - row
 			colspan = int(cell.get('colspan', 1)) or colcount - col
 			# next column is offset by the colspan
 			span_offset += colspan - 1
 			value = cell.get_text().split('\n')
 			final_value = ''
-			for i in value:
-				final_value += i+" "
-
+			for text in value:
+				final_value += text+" "
 			for drow, dcol in product(range(rowspan), range(colspan)):
 				try:
 					table[row + drow][col + dcol] = final_value
@@ -120,71 +71,32 @@ class DoScraping():
 
 	"""Does Web scraping for HTML Pages.urls: url to be summarised."""
 
-	def __init__(self, url, pdf):
+	def __init__(self, url):
 		"""Initialises."""
+		print('Initialises')
 		self.url = url
 		self.data = {}
 		self.text = ""
-		# self.headings = []
 		self.tables = []
-		# self.xml = []
-		self.pdf = pdf
-	def classify_url(self):
-		"""Checks the url and classifies the url."""
-		#check if url exists
-		try:
-			ret = urlopen(self.url, timeout=45)
-			urltype = type_url(ret)
-			final = {}
-			if urltype == 'html':
-				result = self.process()
-				if result is not None:
-					final['text'] = result['text']
-					# final['headings'] = result['headings']
-					# final['tables'] = result['tables']
-					final['type'] = 'html'
-					return json.dumps(final)
-				# return json.dumps({"error":"Error in processing URL"})
-			if urltype is None:
-				return json.dumps({'error':'URL Rejected : Unknow Type document'})
-			if urltype in ["pdf", "doc", "docx", "xls", "xlsx", "pptx", "odt", "txt"]:
-				#convert all to pdf
-				final['type'] = 'html'
-				response_pdf = ConvertTopdf(self.url, urltype, self.pdf).process()
-				if response_pdf is None:
-					return json.dumps({"error":"Input url file cannot be processed"})
-				final['text'] = response_pdf['pdfs'][0]
-				return json.dumps(final)
-			return json.dumps({"error":"URL is not accepted"})
-		# except urllib.error.HTTPError as error:
-		# 	# print("ERROR:", error.__dict__)
-		# 	return None
-		except:# MyError_1 as error:
-			print("ERROR:")
-			return json.dumps({"error":"URL is not accepted"})
 	def process(self):
 		"""Processes the url to text."""
 		try:
 			html = urlopen(self.url)
+			# print('hello')
 		except urllib.error.HTTPError as error:
 			print("ERROR:", error.__dict__)
 			return json.dumps({"error":"URL is not accepted"})
-		# except urllib.error.URLError as error:
-		# 	print("ERROR:", error.__dict__)
-		# 	return json.dumps({"error":"URL is not accepted"})
 		except:
+			print("ERROR: cannot open url")
 			return json.dumps({"error":"URL is not accepted"})
 		text_html = html.read()
 		soup = BeautifulSoup(text_html, 'html.parser')
-		# self.data['xml'] = copy(soup)
 		# kill all script and style elements
 		for script in soup(KILL):
 		    script.extract()
-		# #extract headings,tables
+		# #extracttables
 		for node in soup.find_all(["table"]):
-			if node.name in HEADERS:
-				self.headings.append(node.text.strip())
-			elif node.name == "table":
+			if node.name == "table":
 				eacht = {}
 				body = []
 				rows = node.find_all('tr')
@@ -213,14 +125,16 @@ class DoScraping():
 		for script in soup(["table", "svg"]):
 		    script.extract()
 		text = []
-		for tag in soup.findAll(TEXT+HEADERS):
+		for tag in soup.findAll(TEXT + HEADERS):
 			eachtext = re.sub(' +', ' ', str(tag.text.strip()))
 			# print(tag)
-			if tag.parent.name in TEXT+HEADERS or isinstance(tag, Comment) or tag.name in ["li"]:
+			#remove comments
+			if isinstance(tag, Comment):
 				continue
-			if tag.name in ["a", "href", "span"]:
+			# if parent tag is processed , child need not be processed again
+			if tag.parent.name in TEXT+HEADERS or tag.name in ["li"] or tag.name in ["a", "href", "span"]:
 				continue
-			if tag.name in ["p"]+HEADERS:
+			if tag.name in TEXT+HEADERS:
 				if len(eachtext) > 0:
 					final_text = re.sub('\n+', '\n', str(eachtext))
 					printable = ""
@@ -235,6 +149,7 @@ class DoScraping():
 					if len(printable) > 0:
 						text.append(re.sub('\n+', '.', str(printable)))
 		self.text = '.'.join(chunk for chunk in text if chunk)
+		# remove unnecessary punctuation
 		text = self.text.split('.')
 		self.text = ''
 		for line in text:
@@ -242,7 +157,26 @@ class DoScraping():
 				self.text += line + '.'
 		# print(self.text)
 		# print("Tables")
+		for script in soup(TEXT+HEADERS):
+			script.extract()
+
+		# write to error file if not retreived in text
+		path = os.path.dirname(os.path.abspath(__file__))+'/errorfile/'
+		with open(path+'errorfile.txt', 'w+') as file:
+			for line in (soup.get_text()).split("\n"):
+				# print(line)
+				if line != "\n" and line not in self.text:
+					file.write(line+"\n")
+			for table in self.tables:
+				file.write(str(table)+"\n")
+		file.close()
+		# write to logger
+		if LOG_ENABLE == "1":
+			LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'Errorfile written sucessfully')
+
 		self.data['text'] = self.text
+		self.data['type'] = 'html'
+		self.data['filename'] = self.url
 		# self.data['tables'] = self.tables
-		# self.data['headings'] = self.headings
+		# print(self.data)
 		return self.data

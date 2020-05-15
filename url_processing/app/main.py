@@ -3,9 +3,9 @@
 import os
 from flask import Flask
 from flask import request
-from scrape import DoScraping
+from identifyurl import Identify
 
-
+# check if logger is enabled
 LOG_ENABLE = os.environ["DEPLOYED"] if "DEPLOYED" in os.environ else ''
 
 if LOG_ENABLE == "1":
@@ -18,16 +18,15 @@ app = Flask(__name__)
 def processurl():
 	"""Processes the url as html or pdf.Arg: data => input json object with url."""
 	data = request.get_json(force=True)
-	print(data)
+	# print(data)
 	url = data['url']
+	# pdf has the routes to pdf parser
 	pdf = {'pdf_upload' : data['pdf_upload'], 'pdf_parser' : data['pdf_parser']}
-	response = DoScraping(url, pdf).classify_url()
-	# print(response)
-
+	# print('hello')
 	if LOG_ENABLE == "1":
 		LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'URL processed successfully')
-	# print(response)
-	return response
+	result = Identify(url, pdf).classify_url()
+	return result
 
 @app.route('/')
 def hello():
@@ -35,4 +34,4 @@ def hello():
 	return "hello world from url_processing"
 
 if __name__ == '__main__':
-	app.run(debug = True)#'0.0.0.0', debug=True, port=80)
+	app.run('0.0.0.0', debug=True, port=80)

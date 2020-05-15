@@ -1,0 +1,18 @@
+Table (information) - Wikipedia
+From Wikipedia, the free encyclopedia
+Jump to navigation
+Jump to search
+For sortable tables in Wikipedia, see Help:Sorting
+ An example table rendered in a web browser using HTML.
+ An example of a table containing rows with summary information. The summary information consists of subtotals that are combined from previous rows within the same column.
+ Adrien Auzout's "A TABLE of the Apertures of Object-Glasses" from a 1665 article in Philosophical Transactions
+Main article: Mathematical table
+Retrieved from "https://en.wikipedia.org/w/index.php?title=Table_(information)&oldid=948726504"
+Categories: Hidden categories: 
+Edit links
+[{'caption': ['Age table'], 'body': [['First name ', 'Last name ', 'Age  '], ['Tinu ', 'Elejogun ', '14  '], ['Blaszczyk ', 'Kostrzewski ', '25  '], ['Lily ', 'McGarrett ', '18  '], ['Olatunkbo ', 'Chijiaku ', '22  '], ['Adrienne ', 'Anthoula ', '22  '], ['Axelia ', 'Athanasios ', '22  '], ['Jon-Kabat ', 'Zinn ', '22  '], ['Thabang ', 'Mosoa ', '15  '], ['Kgaogelo ', 'Mosoa ', '11  ']]}]
+[{'caption': ['Multiplication table'], 'body': [['× ', '1 ', '2 ', '3  '], ['1  ', '1 ', '2 ', '3  '], ['2  ', '2 ', '4 ', '6  '], ['3  ', '3 ', '6 ', '9  ']]}]
+[{'caption': ['Fire diamond', 'Risk levels of hazardous materials in this facility'], 'body': [['Standard Representation  ', '  ', 'Tabular Representation  ', None], ['  2 3 1  ', '  ', '  Risk levels of hazardous materials in this facility   Health Risk Flammability Reactivity Special   Level 3 Level 2 Level 1    ', None], ['Health Risk ', 'Flammability ', 'Reactivity ', 'Special  '], ['Level 3 ', 'Level 2 ', 'Level 1 ', '  ']]}]
+[{'caption': ['Risk levels of hazardous materials in this facility'], 'body': [['Health Risk ', 'Flammability ', 'Reactivity ', 'Special  '], ['Level 3 ', 'Level 2 ', 'Level 1 ', '  ']]}]
+[{'caption': '', 'body': [[' ', 'Look up table in Wiktionary, the free dictionary. ']]}]
+[{'caption': '', 'body': [['vteVisualization of technical information ', 'vteVisualization of technical information '], ['Fields ', ' Biological data visualization Chemical imaging Crime mapping Data visualization Educational visualization Flow visualization Geovisualization Information visualization Mathematical visualization Medical imaging Molecular graphics Product visualization Scientific visualization Software visualization Technical drawing User interface design Visual culture Volume visualization  '], ['Image types ', ' Chart Diagram Engineering drawing Graph of a function Ideogram Map Photograph Pictogram Plot Sankey diagram Schematic Skeletal formula Statistical graphics Table Technical drawings Technical illustration  '], ['People ', ' Jacques Bertin Cynthia Brewer Stuart Card Thomas A. DeFanti Borden Dent Michael Friendly George Furnas Pat Hanrahan Nigel Holmes Christopher R. Johnson Gordon Kindlmann August Kekulé Manuel Lima Alan MacEachren Jock D. Mackinlay Michael Maltz Bruce H. McCormick Miriah Meyer Charles Joseph Minard Rudolf Modley Gaspard Monge Tamara Munzner Otto Neurath Florence Nightingale Hanspeter Pfister Clifford A. Pickover William Playfair Karl Wilhelm Pohlke Adolphe Quetelet George G. Robertson Arthur H. Robinson Lawrence J. Rosenblum Ben Shneiderman Fraser Stoddart Edward Tufte Fernanda Viégas Ade Olufeko Howard Wainer Martin Wattenberg Bang Wong  '], ['Related topics ', ' Cartography Chartjunk Computer graphics in computer science Graph drawing Graphic design Graphic organizer Imaging science Information graphics Information science Misleading graph Neuroimaging Patent drawing Scientific modelling Spatial analysis Visual analytics Visual perception Volume cartography Volume rendering  ']]}]

@@ -1,6 +1,7 @@
 urls:
 	size		=> Time taken for url processing
-	0 - 100KB 	=>  1 - 1.5 sec
-100KB - 800KB 	=>  5 - 8 sec
-800KB - 1MB 	=> 10 - 11 sec
-1MB   - 1.6MB	=>  	< 15 sec
+	0 - 800KB 	=>  1 - 1.5 sec
+800KB - 1MB 	=> 	2 - 3 sec
+1MB   - 1.6MB	=>  	< 5 sec
+
+Documents: 5-6 sec 

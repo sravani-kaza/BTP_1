@@ -1,0 +1,8 @@
+gdown 		17 sec
+wget		18 sec
+youtube-dl	18 sec
+pydrive		20 sec
+GoogleDriveDownloader	20 sec
+request and session		21 sec
+
+browser 42 sec

@@ -1,0 +1,41 @@
+Webpages: 
+-----------------------------------------------------
+	1. Accepts any non blocked URL.
+	
+	2. Removes all images, diagrams, footers.
+	
+	3. Outputs headings, produces only text.
+	
+	4. Tables:
+		
+		a. Tables are restored with each table in the below format. (the code of the tables is commented for now)
+		
+			Caption:
+			header:
+			body: Matrix of size of the table
+
+		b. Removes any images in the table and spanning across table.
+		
+		c. Outputs only text in the corresponding cell of a table.
+
+		d. for tables inside a table ( 2 tables are obtained in output (inside table and outer one))
+
+		e. provides result for all spans of rows and columns of a table.
+
+	5. If URL is blocked or does not exist, returns an error.
+
+	6. Error file named 'errorfile.txt' is stored which contains the content which is not extracted like links, unidentified characters etc.
+
+	7. Time taken for a URL processing is usually 2 - 3 sec.
+
+-------------------------------------------------------
+
+Documents : 
+	
+	1. Accepts urls of the formats pdf, doc, docx, pptx, xls, xlsx, odt, txt and converts to pdfs.
+
+	2. If the Document doesnot exist or unable to open, returns error.
+
+	3. Document constraints are same as for pdf module.
+
+	4. PDF usually takes 4 - 5 seconds for processing.

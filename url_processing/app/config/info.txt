@@ -1,0 +1,12 @@
+Route : 	/extract_page
+requests.post('http://127.0.0.1:5000/extract_page', json=data)
+Input : 	data object in json format is returned
+			data['url'] => input url
+Output : 	final object in json format is returned
+			 
+			final['text'] = clean text from the webpage
+			final['tables'] = tables extracted
+			final['filename'] = filename is url itself
+			
+			if any errors:
+				return object is {"error":"error type"}

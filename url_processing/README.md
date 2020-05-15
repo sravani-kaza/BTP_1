@@ -1,5 +1,5 @@
 ## Input Processing - URL
-This is the code dealing with the input processing of URLs (can be webpages, pdfs, pptx, ppt), and returns clean text output.
+This is the code dealing with the input processing of URLs (can be webpages, pdfs, pptx, doc, docx, odt, xls, xlsx, txt), and returns clean text output.
 
 ### Setup and Installation
 Modules used are given in requirements.txt
@@ -23,7 +23,6 @@ pdf_upload = 'http://10.4.24.5:8003/pdfupload' # url to upload pdf file
 
 pdf_parser = 'http://10.4.24.5:8003/pdftotxt' # url to retreive text from pdf
 
-# Note: might not return a valid output for really short inputs.
 
 obj = {'url':url,'pdf_upload':pdf_upload,'pdf_parser':pdf_parser}
 result = requests.post(urlmain, json = obj)
@@ -31,3 +30,8 @@ result = requests.post(urlmain, json = obj)
 result = result.json()
 print(result.text)
 ```
+### Storage 
+	All Documents are stored in this folder 'url_processing/app/storage'
+
+### Errorfile
+	Contains the 'errorfile.txt' with all the leftover content from a scraped webpage
