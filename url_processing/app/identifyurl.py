@@ -4,8 +4,8 @@ from converttopdf import ConvertTopdf
 from scrape import DoScraping
 
 class Identify():
+
 	"""Identifies the url type as pdf, ppt, pptx, odp, doc, docx, xls, xlsx."""
-	
 	def __init__(self, url, pdf):
 		"""Initiates url, routes for pdf."""
 		self.url = url

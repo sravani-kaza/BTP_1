@@ -8,7 +8,7 @@ import urllib.error
 from itertools import product
 from bs4 import BeautifulSoup
 from bs4.element import Comment
-from checkremovable import Checkremovable
+# from checkremovable import Checkremovable
 LOG_ENABLE = os.environ["DEPLOYED"] if "DEPLOYED" in os.environ else ''
 
 if LOG_ENABLE == "1":
@@ -21,6 +21,7 @@ TEXT = ["p", "li"]
 
 #tables commented for now
 def table_to_2d(table_tag):
+
 	"""Converts a given table to matrix."""
 	rowspans = []
 	# track pending rowspans

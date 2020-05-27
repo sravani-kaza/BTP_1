@@ -6,11 +6,16 @@ import json
 import requests
 import textract
 from fpdf import FPDF
+from pdfhandler import Pdfhandler
 
+LOG_ENABLE = os.environ["DEPLOYED"] if "DEPLOYED" in os.environ else ''
+if LOG_ENABLE == "1":
+    from logger import Logger
+    LOG = Logger(os.getenv('LOGGER_ADDR'))
 
 class ConvertTopdf():
-	"""Converts files to pdf."""
 
+	"""Converts files to pdf."""
 	def __init__(self, url, typeoffile, pdf, filename):
 		"""Initialises pdf conversion."""
 		self.url = url
@@ -25,8 +30,12 @@ class ConvertTopdf():
 			print(self.type)
 			response = requests.get(self.url, stream=True)
 			if self.type == "txt":
-				text = response.text
-				return json.dumps({'text':text, 'filename':self.filename, 'type':'html'})
+				text = response.text.split("\n")
+				final = ""
+				for line in text:
+					if line:
+						final += line
+				return json.dumps({'text':final, 'filename':self.filename+'.txt', 'type':'html'})
 			with open(self.path+self.filename+'.'+self.type, 'wb') as file:
 				for chunk in response.iter_content():
 					if chunk: # filter out keep-alive new chunks
@@ -48,36 +57,9 @@ class ConvertTopdf():
 					LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'file cannot be opened')
 				print('file cannot be extracted')
 				return json.dumps({'error':'file cannot be extracted'})
-			# request to pdf parser
-		file = self.filename+'.pdf'
-		file_path = self.path+self.filename+'.'+'pdf'
-		file_data = {'file': open(file_path, 'rb')}
-		# print(file_path, file_data)
-		# upload path, file
-		response = requests.post(self.pdf['pdf_upload'], files=file_data)
-		if response.status_code != 200:
-			if LOG_ENABLE == "1":
-				LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'Error from pdf parser')
-			print("ERROR in post request response to pdf")
-			return json.dumps({'error':'Error from pdf_parser'})
-		# does pdf parsing
-		try:
-			parser_file_path = "./PDFs/" + file
-			dict_json = {}
-			dict_json['pdfs'] = [parser_file_path]
-			response = requests.post(self.pdf['pdf_parser'], json=json.dumps(dict_json))
-			if response.status_code != 200:
-				if LOG_ENABLE == "1":
-					LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'Error from pdf parser')
-				print("ERROR in post request response to pdf")
-				return json.dumps({'error':'Error from pdf_parser'})
-			text = json.loads(response.text)
-			return json.dumps({'text':text, 'type':'html', 'filename':self.filename})
-		except:
-			if LOG_ENABLE == "1":
-				LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'Error from pdf parser')
-			print("ERROR in post request response to pdf")
-			return json.dumps({'error':'Error from pdf_parser'})
+		#pdf handler
+		return Pdfhandler(self.filename, self.path, self.pdf).processpdf()
+
 	def writetopdf(self, text):
 		"""Write text to pdf."""
 		try:
