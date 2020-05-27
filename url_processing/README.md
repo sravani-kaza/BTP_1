@@ -31,7 +31,7 @@ result = result.json()
 print(result.text)
 ```
 ### Storage 
-	All Documents are stored in this folder 'url_processing/app/storage'
+	All Documents are stored in this folder url_processing/app/storage
 
 ### Errorfile
-	Contains the 'errorfile.txt' with all the leftover content from a scraped webpage
+	Contains the errorfile.txt with all the leftover content from a scraped webpage
