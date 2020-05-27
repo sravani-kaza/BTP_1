@@ -1,0 +1,3 @@
+Automated Testing - complete
+basic testing - No errors - before tomorrow
+except 29-34 rest should complete by the end of this month

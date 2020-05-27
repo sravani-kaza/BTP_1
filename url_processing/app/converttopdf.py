@@ -33,6 +33,8 @@ class ConvertTopdf():
 						file.write(chunk)
 				file.close()
 		except:
+			if LOG_ENABLE == "1":
+				LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'file cannot be opened')
 			print('file cannot be opened')
 			return json.dumps({'error':'Not able to open the file'})
 		#convert to pdf if not pdf
@@ -42,6 +44,8 @@ class ConvertTopdf():
 			try:
 				self.writetopdf(text)
 			except:
+				if LOG_ENABLE == "1":
+					LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'file cannot be opened')
 				print('file cannot be extracted')
 				return json.dumps({'error':'file cannot be extracted'})
 			# request to pdf parser
@@ -52,6 +56,8 @@ class ConvertTopdf():
 		# upload path, file
 		response = requests.post(self.pdf['pdf_upload'], files=file_data)
 		if response.status_code != 200:
+			if LOG_ENABLE == "1":
+				LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'Error from pdf parser')
 			print("ERROR in post request response to pdf")
 			return json.dumps({'error':'Error from pdf_parser'})
 		# does pdf parsing
@@ -61,11 +67,15 @@ class ConvertTopdf():
 			dict_json['pdfs'] = [parser_file_path]
 			response = requests.post(self.pdf['pdf_parser'], json=json.dumps(dict_json))
 			if response.status_code != 200:
+				if LOG_ENABLE == "1":
+					LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'Error from pdf parser')
 				print("ERROR in post request response to pdf")
 				return json.dumps({'error':'Error from pdf_parser'})
 			text = json.loads(response.text)
 			return json.dumps({'text':text, 'type':'html', 'filename':self.filename})
 		except:
+			if LOG_ENABLE == "1":
+				LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'Error from pdf parser')
 			print("ERROR in post request response to pdf")
 			return json.dumps({'error':'Error from pdf_parser'})
 	def writetopdf(self, text):
@@ -85,5 +95,7 @@ class ConvertTopdf():
 			pdf.output(self.path+self.filename+'.'+'pdf')
 			return "success"
 		except:# MyError as error:
+			if LOG_ENABLE == "1":
+				LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'pdf cannot be saved')
 			print('pdf cannot be written')
 			return None

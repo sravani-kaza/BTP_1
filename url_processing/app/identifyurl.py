@@ -5,14 +5,15 @@ from scrape import DoScraping
 
 class Identify():
 	"""Identifies the url type as pdf, ppt, pptx, odp, doc, docx, xls, xlsx."""
+	
 	def __init__(self, url, pdf):
-		"""initiates url, routes for pdf."""
+		"""Initiates url, routes for pdf."""
 		self.url = url
 		self.pdf = pdf
 		self.type = 'html'
 		self.filename = url
 	def classify_url(self):
-		"""classifies url."""
+		"""Classifies url."""
 		# get filename and type of url
 		filename = ""
 		filename = self.url.split('/')[-1]

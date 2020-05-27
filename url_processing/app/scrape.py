@@ -8,6 +8,7 @@ import urllib.error
 from itertools import product
 from bs4 import BeautifulSoup
 from bs4.element import Comment
+from checkremovable import Checkremovable
 LOG_ENABLE = os.environ["DEPLOYED"] if "DEPLOYED" in os.environ else ''
 
 if LOG_ENABLE == "1":
@@ -16,7 +17,7 @@ if LOG_ENABLE == "1":
 
 HEADERS = ["h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8"]
 KILL = ["script", "style", "footer", "symbol", "meta", "[document]", "nav", "input"]
-TEXT = ["p", "li", "img"]
+TEXT = ["p", "li"]
 
 #tables commented for now
 def table_to_2d(table_tag):
@@ -84,8 +85,12 @@ class DoScraping():
 			# print('hello')
 		except urllib.error.HTTPError as error:
 			print("ERROR:", error.__dict__)
+			if LOG_ENABLE == "1":
+				LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'URL is not accepted'+self.url)
 			return json.dumps({"error":"URL is not accepted"})
 		except:
+			if LOG_ENABLE == "1":
+				LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'URL is not accepted'+self.url)
 			print("ERROR: cannot open url")
 			return json.dumps({"error":"URL is not accepted"})
 		text_html = html.read()
@@ -148,11 +153,12 @@ class DoScraping():
 					if len(printable) > 0:
 						text.append(re.sub('\n+', '.', str(printable)))
 		self.text = '.'.join(chunk for chunk in text if chunk)
+		# self.text = Checkremovable(self.text).checkall()
 		# remove unnecessary punctuation
 		text = self.text.split('.')
 		self.text = ''
 		for line in text:
-			if len(line) > 0:
+			if len(line) > 1 and line != " ":
 				self.text += line + '.'
 		# print(self.text)
 		# print("Tables")
@@ -160,18 +166,21 @@ class DoScraping():
 			script.extract()
 
 		# write to error file if not retreived in text
+		left = ""
 		path = os.path.dirname(os.path.abspath(__file__))+'/errorfile/'
 		with open(path+'errorfile.txt', 'w+') as file:
 			for line in (soup.get_text()).split("\n"):
 				# print(line)
 				if line != "\n" and line not in self.text:
 					file.write(line+"\n")
+					left += line + "\n"
 			for table in self.tables:
+				line += str(table)+"\n"
 				file.write(str(table)+"\n")
 		file.close()
 		# write to logger
 		if LOG_ENABLE == "1":
-			LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'Errorfile written sucessfully')
+			LOG.info('url_processing', 'POST', 'NULL', 'NULL', 'Errorfile written sucessfully: '+left)
 
 		self.data['text'] = self.text
 		self.data['type'] = 'html'

@@ -1,0 +1,5 @@
+The following features are to be tested manually as of now.
+
+1.	Slider working
+2.	Edit persona keywords and reset persona
+3.	readability of summaries
