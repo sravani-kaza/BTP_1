@@ -12,7 +12,7 @@ fpdf==1.7.2
 idna==2.9
 IMAPClient==2.1.0
 itsdangerous==1.1.0
-Jinja2==2.11.1
+Jinja2==2.11.3
 lxml==4.5.0
 MarkupSafe==1.1.1
 olefile==0.46
